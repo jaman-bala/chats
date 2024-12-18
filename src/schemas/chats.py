@@ -47,7 +47,6 @@ class MessageAddRequest(BaseModel):
     chat_id: uuid.UUID | None = None
     sender_id: uuid.UUID | None = None
     content: str | None = None
-    file: str | None = None
     send_at: datetime | None = None
     is_read: bool | None = None
 
@@ -56,7 +55,6 @@ class MessagePatch(BaseModel):
     chat_id: uuid.UUID | None = None
     sender_id: uuid.UUID | None = None
     content: str | None = None
-    file: str | None = None
     send_at: datetime | None = None
     is_read: bool | None = None
 
@@ -65,7 +63,7 @@ class Message(BaseModel):
     chat_id: uuid.UUID | None = None
     sender_id: uuid.UUID | None = None
     content: str | None = None
-    file: str | None = None
+    files: list[str] | None = None
     send_at: datetime | None = None
     is_read: bool | None = None
 

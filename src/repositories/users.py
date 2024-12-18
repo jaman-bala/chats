@@ -1,6 +1,11 @@
+import os
+import uuid
+import aiofiles
+from fastapi import UploadFile
 from sqlalchemy import select, update
 from pydantic import EmailStr
 
+from src.config import settings
 from src.repositories.base import BaseRepository
 from src.models.users import UserOrm
 from src.repositories.mappers.mappers import UserDataMapper
@@ -36,3 +41,12 @@ class UsersRepository(BaseRepository):
             .values(hashed_password=hashed_password)
         )
         await self.session.execute(query)
+
+    async def upload(self, file: UploadFile) -> str:
+        unique_filename = f"{uuid.uuid4()}_{file.filename}"
+        file_path = f"{settings.LINK_IMAGES}/{unique_filename}"
+        os.makedirs(settings.LINK_IMAGES, exist_ok=True)
+        async with aiofiles.open(file_path, "wb") as buffer:
+            content = await file.read()
+            await buffer.write(content)
+        return f"{settings.LINK_IMAGES}/{unique_filename}"

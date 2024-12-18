@@ -50,9 +50,9 @@ class MessageOrm(Base):
         UUID(as_uuid=True), ForeignKey("users.id")
     )
     content: Mapped[str | None] = mapped_column(String)  # TODO: Текст сообщения
-    file: Mapped[list[str] | None] = mapped_column(
+    files: Mapped[list[str] | None] = mapped_column(
         ARRAY(String), nullable=True
-    )  # TODO: Файл для чата
+    ) # TODO: Файл для чата
     send_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

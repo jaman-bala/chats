@@ -1,9 +1,16 @@
 import uuid
+from typing import List
+from enum import Enum
 from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String
 
 from src.database import Base
+
+
+class Role(str, Enum):
+    USER = "USER"
+    ADMIN = "ADMIN"
 
 
 class UserOrm(Base):
@@ -17,3 +24,4 @@ class UserOrm(Base):
     phone: Mapped[str | None] = mapped_column(String(20))
     hashed_password: Mapped[str] = mapped_column(String(200))
     avatar: Mapped[list[str] | None] = mapped_column(ARRAY(String), nullable=True)
+    roles: Mapped[List[Role]] = mapped_column(ARRAY(String))

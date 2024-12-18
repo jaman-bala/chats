@@ -1,6 +1,12 @@
 import uuid
 
 from pydantic import BaseModel, Field, ConfigDict
+from enum import Enum
+
+
+class Role(str, Enum):
+    USER = "USER"
+    ADMIN = "ADMIN"
 
 
 class UserAddRequest(BaseModel):
@@ -8,6 +14,7 @@ class UserAddRequest(BaseModel):
     lastname: str = Field(default=None, max_length=100)
     password: str
     phone: str
+    roles: list[Role]
 
 
 class UserAdd(BaseModel):
@@ -15,6 +22,8 @@ class UserAdd(BaseModel):
     lastname: str = Field(default=None, max_length=100)
     phone: str
     hashed_password: str
+    avatar: list[str]
+    roles: list[Role]
 
 
 class UserPatch(BaseModel):
@@ -33,8 +42,9 @@ class User(BaseModel):
     id: uuid.UUID
     firstname: str = Field(default=None, max_length=100)
     lastname: str = Field(default=None, max_length=100)
-    avatar: str = Field(default=None, max_length=200)
+    avatar: list[str]
     phone: str = Field(default=None, max_length=20)
+    roles: list[Role]
 
     model_config = ConfigDict(from_attributes=True)
 
